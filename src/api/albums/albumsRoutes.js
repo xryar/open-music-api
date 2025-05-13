@@ -12,18 +12,18 @@ const albumsRoutes = (handler) => [
   {
     method: 'GET',
     path: '/albums/{id}',
-    handler: handler.getAlbumsByIdHandler,
+    handler: handler.getAlbumByIdHandler,
   },
   {
     method: 'PUT',
     path: '/albums/{id}',
-    handler: handler.putAlbumsByIdHandler,
+    handler: handler.putAlbumByIdHandler,
   },
-  // {
-  //   method: 'DELETE',
-  //   path: '/albums/{id}',
-  //   handler: handler.deleteAlbumsByIdHandler,
-  // },
+  {
+    method: 'DELETE',
+    path: '/albums/{id}',
+    handler: handler.deleteAlbumByIdHandler,
+  },
 ];
 
 module.exports = albumsRoutes;
