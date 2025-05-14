@@ -27,7 +27,7 @@ class SongsService {
 
   async getSongs({ title, performer }) {
     const query = {
-      text: 'SELECT title, performer FROM songs',
+      text: 'SELECT id, title, performer FROM songs',
       values: [],
     };
     const conditions = [];
