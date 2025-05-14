@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 const { nanoid } = require('nanoid');
 const { Pool } = require('pg');
 const { mapDBToSongs } = require('../../utils');
@@ -8,12 +9,12 @@ class SongsService {
     this._pool = new Pool();
   }
 
-  async AddSong({ title, year, genre, performer, duration, albumId }) {
+  async addSong({ title, year, genre, performer, duration, album_id }) {
     const id = nanoid(16);
 
     const query = {
       text: 'INSERT INTO songs VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING id',
-      values: [id, title, year, genre, performer, duration, albumId],
+      values: [id, title, year, genre, performer, duration, album_id],
     };
 
     const result = await this._pool.query(query);
@@ -42,13 +43,13 @@ class SongsService {
       throw new NotFoundError('Lagu tidak ditemukan');
     }
 
-    return result.rows.map(mapDBToSongs);
+    return mapDBToSongs(result.rows[0]);
   }
 
-  async editSongById(id, { title, year, genre, performer, duration, albumId }) {
+  async editSongById(id, { title, year, genre, performer, duration, album_id }) {
     const query = {
-      text: 'UPDATE songs SET name = $1, year = $2, genre = $3, performer = $4, duration = $5, albumId = $6 WHERE id = $7 RETURNING id',
-      values: [title, year, genre, performer, duration, albumId, id],
+      text: 'UPDATE songs SET title = $1, year = $2, genre = $3, performer = $4, duration = $5, album_id = $6 WHERE id = $7 RETURNING id',
+      values: [title, year, genre, performer, duration, album_id, id],
     };
 
     const result = await this._pool.query(query);

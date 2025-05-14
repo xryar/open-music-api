@@ -1,7 +1,15 @@
+const ClientError = require('../../exceptions/ClientError');
+
 class SongsHandler {
   constructor(service, validator) {
     this._service = service;
     this._validator = validator;
+
+    this.postSongHandler = this.postSongHandler.bind(this);
+    this.getSongsHandler = this.getSongsHandler.bind(this);
+    this.getSongByIdHandler = this.getSongByIdHandler.bind(this);
+    this.putSongByIdHandler = this.putSongByIdHandler.bind(this);
+    this.deleteSongByIdHandler = this.deleteSongByIdHandler.bind(this);
   }
 
   async postSongHandler(request, h) {
@@ -43,15 +51,38 @@ class SongsHandler {
   }
 
   async putSongByIdHandler(request, h) {
-    this._validator.validateSongPayload(request.payload);
-    const { id } = request.params;
+    // this._validator.validateSongPayload(request.payload);
+    // const { id } = request.params;
 
-    await this._service.editSongById(id, request.payload);
+    // await this._service.editSongById(id, request.payload);
 
-    return h.response({
-      status: 'success',
-      message: 'Lagu berhasil diperbarui',
-    });
+    // return h.response({
+    //   status: 'success',
+    //   message: 'Lagu berhasil diperbarui',
+    // });
+    try {
+      this._validator.validateSongPayload(request.payload);
+      const { id } = request.params;
+      await this._service.editSongById(id, request.payload);
+
+      return h.response({
+        status: 'success',
+        message: 'Lagu berhasil diperbarui',
+      });
+    } catch (error) {
+      if (error instanceof ClientError) {
+        return h.response({
+          status: 'fail',
+          message: error.message,
+        }).code(error.statusCode);
+      }
+
+      console.error(error); // Untuk debug
+      return h.response({
+        status: 'error',
+        message: 'Maaf, terjadi kegagalan pada server kami.',
+      }).code(500);
+    }
   }
 
   async deleteSongByIdHandler(request, h) {

@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 const mapDBToAlbums = ({
   id,
   name,
@@ -15,7 +16,7 @@ const mapDBToSongs = ({
   performer,
   genre,
   duration,
-  albumId,
+  album_id,
 }) => ({
   id: id,
   title: title,
@@ -23,7 +24,7 @@ const mapDBToSongs = ({
   performer: performer,
   genre: genre,
   duration: duration,
-  albumId: albumId,
+  albumId: album_id,
 });
 
 module.exports = { mapDBToAlbums, mapDBToSongs };
