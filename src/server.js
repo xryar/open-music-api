@@ -4,6 +4,7 @@ const Hapi = require('@hapi/hapi');
 
 const ClientError = require('./exceptions/ClientError');
 const plugins = require('./plugins/plugins');
+const { error } = require('./validator/albums/schema');
 
 const init = async () => {
   const server = Hapi.server({
@@ -34,6 +35,8 @@ const init = async () => {
       if (!response.isServer) {
         return h.continue;
       }
+
+      console.log(error);
 
       const newResponse = h.response({
         status: 'error',
