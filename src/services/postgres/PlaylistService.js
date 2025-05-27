@@ -27,6 +27,33 @@ class PlaylistService {
     return result.rows[0].id;
   }
 
+  async addSongToPlaylist(playlistId, songId) {
+    const id = `playlist-song-${nanoid(16)}`;
+    const songCheck = {
+      text: 'SELECT id FROM songs WHERE id = $1',
+      values: [songId],
+    };
+
+    const songsCheck = await this._pool.query(songCheck);
+
+    if (!songsCheck.rowCount) {
+      throw new NotFoundError('Lagu tidak ditemukan');
+    }
+
+    const query = {
+      text: 'INSERT INTO playlist_songs VALUES ($1, $2, $3) RETURNING id',
+      values: [id, playlistId, songId]
+    };
+
+    const result = await this._pool.query(query);
+
+    if (!result.rows[0].id) {
+      throw new InvariantError('Lagu gagal ditambahkan ke playlist');
+    }
+
+    return result.rows[0].id;
+  }
+
   async getPlaylist(owner) {
     const query = {
       text: 'SELECT * FROM playlist WHERE OWNER = $1',

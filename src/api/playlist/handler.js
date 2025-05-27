@@ -28,6 +28,23 @@ class PlaylistHandler {
     return response;
   }
 
+  async postSongToPlaylistHandler(request, h) {
+    this._validator.validateAddSongToPlaylistPayload(request.payload);
+    const { id: credentialId } = request.auth.credentials;
+    const { playlistId } = request.params;
+    const { songId } = request.payload;
+
+    await this._service.verifyPlaylistAccess(playlistId, credentialId);
+    await this._service.addSongToPlaylist(playlistId, songId);
+
+    const response = h.reponse({
+      status: 'success',
+      message: 'Lagu berhasil ditambahkan ke playlist',
+    });
+    response.code(201);
+    return response;
+  }
+
   async getPlaylistHandler(request, h) {
     const { id: credentialId } = request.auth.credentials;
     console.log('ID user: ', credentialId);
