@@ -56,6 +56,21 @@ class PlaylistHandler {
     });
   }
 
+  async getSongsFromPlaylistHandler(request, h) {
+    const { id: credentialId } = request.auth.credentials;
+    const { id: playlistId } = request.params;
+
+    await this._service.verifyPlaylistAccess(playlistId, credentialId);
+    const playlist = await this._service.getSongFromPlaylist(playlistId);
+
+    return h.response({
+      status: 'success',
+      data: {
+        playlist,
+      },
+    });
+  }
+
   async deletePlaylistHandler(request, h) {
     const { id } = request.params;
     const { id: credentialId } = request.auth.credentials;
