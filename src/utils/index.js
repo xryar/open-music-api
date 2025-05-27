@@ -34,7 +34,7 @@ const mapDBToPlaylist = ({
 }) => ({
   id: id,
   name: name,
-  owner: owner,
+  username: owner,
 });
 
 module.exports = { mapDBToAlbums, mapDBToSongs, mapDBToPlaylist };

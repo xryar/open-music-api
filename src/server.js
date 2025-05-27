@@ -5,7 +5,6 @@ const Jwt = require('@hapi/jwt');
 
 const ClientError = require('./exceptions/ClientError');
 const plugins = require('./plugins/plugins');
-const { error } = require('./validator/albums/schema');
 
 const init = async () => {
   const server = Hapi.server({
@@ -59,7 +58,7 @@ const init = async () => {
         return h.continue;
       }
 
-      console.log(error);
+      console.log(response);
 
       const newResponse = h.response({
         status: 'error',

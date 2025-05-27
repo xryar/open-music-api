@@ -36,7 +36,7 @@ class PlaylistService {
     return result.rows.map(mapDBToPlaylist);
   }
 
-  async deletePlaylist(id) {
+  async deletePlaylistById(id) {
     const query = {
       text: 'DELETE FROM playlist WHERE id = $1',
       values: [id],
