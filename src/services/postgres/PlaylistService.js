@@ -1,3 +1,4 @@
+/* eslint-disable no-useless-catch */
 const { nanoid } = require('nanoid');
 const { Pool } = require('pg');
 const InvariantError = require('../../exceptions/InvariantError');
@@ -6,8 +7,9 @@ const AuthorizationError = require('../../exceptions/AuthorizationError');
 const { mapDBToPlaylist } = require('../../utils');
 
 class PlaylistService {
-  constructor() {
+  constructor(collaborationsService) {
     this._pool = new Pool();
+    this._collaborationsService = collaborationsService;
   }
 
   async addPlaylist({ name, owner }) {
@@ -140,7 +142,18 @@ class PlaylistService {
   }
 
   async verifyPlaylistAccess(playlistId, userId) {
-    await this.verifyPlaylistOwner(playlistId, userId);
+    try {
+      await this.verifyPlaylistOwner(playlistId, userId);
+    } catch (error) {
+      if (error instanceof NotFoundError) {
+        throw error;
+      }
+      try {
+        await this._collaborationsService.verifyCollaborator(playlistId, userId);
+      } catch (error) {
+        throw error;
+      }
+    }
   }
 }
 
