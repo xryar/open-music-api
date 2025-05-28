@@ -22,8 +22,8 @@ const usersService = new UsersService();
 const albumsService = new AlbumsService();
 const songsService = new SongsService();
 const authenticationsService = new AuthenticationsService();
-const playlistService = new PlaylistService();
 const collaborationsService = new CollaborationsService();
+const playlistService = new PlaylistService(collaborationsService);
 
 module.exports = [
   {

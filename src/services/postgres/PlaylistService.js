@@ -56,13 +56,15 @@ class PlaylistService {
     return result.rows[0].id;
   }
 
-  async getPlaylist(owner) {
+  async getPlaylist(userId) {
     const query = {
       text: `SELECT playlist.id, playlist.name, users.username
       FROM playlist 
-      JOIN users ON playlist.owner = users.id
-      WHERE playlist.owner = $1`,
-      values: [owner],
+      JOIN users ON users.id = playlist.owner
+      LEFT JOIN collaborations ON collaborations.playlist_id = playlist.id
+      WHERE playlist.owner = $1 OR collaborations.user_id = $1
+      GROUP BY playlist.id, users.username`,
+      values: [userId],
     };
     const result = await this._pool.query(query);
     return result.rows.map(mapDBToPlaylist);
