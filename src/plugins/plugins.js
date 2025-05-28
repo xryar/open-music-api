@@ -17,13 +17,15 @@ const AuthenticationsValidator = require('../validator/authentications');
 const PlaylistValidator = require('../validator/playlist');
 const CollaborationsValidator = require('../validator/collaborations');
 const TokenManager = require('../tokenize/TokenManager');
+const ActivitiesService = require('../services/postgres/ActivitesService');
 
 const usersService = new UsersService();
 const albumsService = new AlbumsService();
 const songsService = new SongsService();
 const authenticationsService = new AuthenticationsService();
 const collaborationsService = new CollaborationsService();
-const playlistService = new PlaylistService(collaborationsService);
+const activitiesService = new ActivitiesService();
+const playlistService = new PlaylistService(collaborationsService, activitiesService);
 
 module.exports = [
   {
@@ -59,7 +61,8 @@ module.exports = [
   {
     plugin: playlist,
     options: {
-      service: playlistService,
+      playlistService,
+      activitiesService,
       validator: PlaylistValidator,
     }
   },
