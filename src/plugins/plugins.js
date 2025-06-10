@@ -21,6 +21,10 @@ const ActivitiesService = require('../services/postgres/ActivitesService');
 const _exports = require('../api/exports');
 const ProducerService = require('../services/rabbitmq/ProducerService');
 const ExportsValidator = require('../validator/exports');
+const UploadsValidator = require('../validator/uploads');
+const uploads = require('../api/uploads');
+const StorageService = require('../services/storage/StorageService');
+const path = require('path');
 
 const usersService = new UsersService();
 const albumsService = new AlbumsService();
@@ -29,6 +33,7 @@ const authenticationsService = new AuthenticationsService();
 const collaborationsService = new CollaborationsService();
 const activitiesService = new ActivitiesService();
 const playlistService = new PlaylistService(collaborationsService, activitiesService);
+const storageService = new StorageService(path.resolve(__dirname, 'api/uploads/file/images'));
 
 module.exports = [
   {
@@ -85,4 +90,11 @@ module.exports = [
       validator: ExportsValidator,
     }
   },
+  {
+    plugin: uploads,
+    options: {
+      service: storageService,
+      validator: UploadsValidator,
+    }
+  }
 ];
