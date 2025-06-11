@@ -2,11 +2,13 @@
 const mapDBToAlbums = ({
   id,
   name,
-  year
+  year,
+  cover,
 }) => ({
   id: id,
   name: name,
   year: year,
+  coverUrl: cover ?? null,
 });
 
 const mapDBToSongs = ({
