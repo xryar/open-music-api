@@ -25,6 +25,8 @@ const UploadsValidator = require('../validator/uploads');
 const uploads = require('../api/uploads');
 const StorageService = require('../services/storage/StorageService');
 const path = require('path');
+const likes = require('../api/likes');
+const AlbumLikesService = require('../services/postgres/AlbumLikesService');
 
 const usersService = new UsersService();
 const albumsService = new AlbumsService();
@@ -32,6 +34,7 @@ const songsService = new SongsService();
 const authenticationsService = new AuthenticationsService();
 const collaborationsService = new CollaborationsService();
 const activitiesService = new ActivitiesService();
+const albumLikesService = new AlbumLikesService();
 const playlistService = new PlaylistService(collaborationsService, activitiesService);
 const storageService = new StorageService(path.resolve(process.cwd(), 'src/api/uploads/file/images'));
 
@@ -96,6 +99,12 @@ module.exports = [
       storageService,
       albumsService,
       validator: UploadsValidator,
+    }
+  },
+  {
+    plugin: likes,
+    options: {
+      service: albumLikesService,
     }
   }
 ];
