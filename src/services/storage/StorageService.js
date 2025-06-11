@@ -4,7 +4,7 @@ class StorageService {
   constructor(folder) {
     this._folder = folder;
 
-    if (!fs.existSync(folder)) {
+    if (!fs.existsSync(folder)) {
       fs.mkdirSync(folder, { recursive: true });
     }
   }

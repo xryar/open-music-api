@@ -33,7 +33,7 @@ const authenticationsService = new AuthenticationsService();
 const collaborationsService = new CollaborationsService();
 const activitiesService = new ActivitiesService();
 const playlistService = new PlaylistService(collaborationsService, activitiesService);
-const storageService = new StorageService(path.resolve(__dirname, 'api/uploads/file/images'));
+const storageService = new StorageService(path.resolve(process.cwd(), 'src/api/uploads/file/images'));
 
 module.exports = [
   {

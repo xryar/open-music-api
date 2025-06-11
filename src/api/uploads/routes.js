@@ -4,14 +4,14 @@ const routes = (handler) => [
     path: '/albums/{id}/covers',
     handler: handler.postUploadAlbumCoverHandler,
     options: {
-      auth: 'openmusic_jwt',
       payload: {
-        allow: 'multipar/form-data',
-        mulipart: true,
-        output: 'stream'
-      }
-    }
-  }
+        allow: 'multipart/form-data',
+        multipart: true,
+        output: 'stream',
+        maxBytes: 512000,
+      },
+    },
+  },
 ];
 
 module.exports = routes;
