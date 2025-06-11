@@ -93,7 +93,8 @@ module.exports = [
   {
     plugin: uploads,
     options: {
-      service: storageService,
+      storageService,
+      albumsService,
       validator: UploadsValidator,
     }
   }
