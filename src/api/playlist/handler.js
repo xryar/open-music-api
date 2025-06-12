@@ -75,7 +75,7 @@ class PlaylistHandler {
     const { id: playlistId } = request.params;
 
     await this._playlistService.verifyPlaylistAccess(playlistId, credentialId);
-    const { data: playlist, fromCache } = await this._playlistService.getSongFromPlaylist(playlistId);
+    const { data:playlist, fromCache } = await this._playlistService.getSongFromPlaylist(playlistId);
 
     const response = h.response({
       status: 'success',

@@ -127,7 +127,10 @@ class PlaylistService {
       };
 
       await this._cacheService.set(`playlistSongs:${playlistId}`, JSON.stringify(data));
-      return data;
+      return {
+        data,
+        fromCache: false
+      };
     }
   }
 

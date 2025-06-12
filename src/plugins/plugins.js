@@ -37,7 +37,7 @@ const authenticationsService = new AuthenticationsService();
 const collaborationsService = new CollaborationsService();
 const activitiesService = new ActivitiesService(cacheService);
 const albumLikesService = new AlbumLikesService(cacheService);
-const playlistService = new PlaylistService(collaborationsService, activitiesService, cacheService);
+const playlistService = new PlaylistService(collaborationsService, cacheService);
 const storageService = new StorageService(path.resolve(process.cwd(), 'src/api/uploads/file/images'));
 
 module.exports = [
