@@ -25,14 +25,20 @@ class LikesAlbumHandler {
     const { id:albumId } = request.params;
 
     await this._service.verifyAlbumExist(albumId);
-    const likes = await this._service.getAlbumLikesCount(albumId);
+    const { count: likes, fromCache } = await this._service.getAlbumLikesCount(albumId);
 
-    return h.response({
+    const response = h.response({
       status: 'success',
       data: {
         likes,
       },
     });
+
+    if (fromCache) {
+      response.header('X-Data-Source', 'cache');
+    }
+
+    return response;
   }
 
   async deleteLikeAlbumHandler(request, h) {

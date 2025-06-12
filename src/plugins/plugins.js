@@ -27,6 +27,7 @@ const StorageService = require('../services/storage/StorageService');
 const path = require('path');
 const likes = require('../api/likes');
 const AlbumLikesService = require('../services/postgres/AlbumLikesService');
+const CacheService = require('../services/redis/CacheService');
 
 const usersService = new UsersService();
 const albumsService = new AlbumsService();
@@ -34,7 +35,8 @@ const songsService = new SongsService();
 const authenticationsService = new AuthenticationsService();
 const collaborationsService = new CollaborationsService();
 const activitiesService = new ActivitiesService();
-const albumLikesService = new AlbumLikesService();
+const cacheService = new CacheService();
+const albumLikesService = new AlbumLikesService(cacheService);
 const playlistService = new PlaylistService(collaborationsService, activitiesService);
 const storageService = new StorageService(path.resolve(process.cwd(), 'src/api/uploads/file/images'));
 
