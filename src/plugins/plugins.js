@@ -32,12 +32,12 @@ const CacheService = require('../services/redis/CacheService');
 const usersService = new UsersService();
 const albumsService = new AlbumsService();
 const songsService = new SongsService();
+const cacheService = new CacheService();
 const authenticationsService = new AuthenticationsService();
 const collaborationsService = new CollaborationsService();
-const activitiesService = new ActivitiesService();
-const cacheService = new CacheService();
+const activitiesService = new ActivitiesService(cacheService);
 const albumLikesService = new AlbumLikesService(cacheService);
-const playlistService = new PlaylistService(collaborationsService, activitiesService);
+const playlistService = new PlaylistService(collaborationsService, activitiesService, cacheService);
 const storageService = new StorageService(path.resolve(process.cwd(), 'src/api/uploads/file/images'));
 
 module.exports = [
